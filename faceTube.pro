@@ -42,7 +42,11 @@ SOURCES += \
     ImageDisplayerWidgetImpl.cpp \
     ImageDisplayerWidgetImpl2.cpp \
     OpenCV_GLWidget.cpp \
-    ImageDisplayerWidgetImpl3.cpp
+    ImageDisplayerWidgetImpl3.cpp \
+    OpenCV_SynchronizedGLWidget.cpp \
+    GLWidgetRenderingThread.cpp \
+    Algorithm_FaceDetector_Surf.cpp \
+    RobustMatcher.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -69,7 +73,13 @@ HEADERS += \
     ImageDisplayerWidgetImpl.h \
     ImageDisplayerWidgetImpl2.h \
     OpenCV_GLWidget.h \
-    ImageDisplayerWidgetImpl3.h
+    ImageDisplayerWidgetImpl3.h \
+    OpenCV_SynchronizedGLWidget.h \
+    GLWidgetRenderingThread.h \
+    VideoCaptureDeviceDetectorForLinux.h \
+    VideoCaptureDeviceDetector.h \
+    Algorithm_FaceDetector_Surf.h \
+    RobustMatcher.h
 
 RESOURCES += img.qrc \
     img.qrc

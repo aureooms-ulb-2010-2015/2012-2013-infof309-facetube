@@ -8,97 +8,13 @@
 #include "ImageDisplayerWidgetImpl2.h"
 #include "ImageDisplayerWidgetImpl3.h"
 
-/*
-#include "Algorithm_Tagging.h"
-#include "Algorithm_OomsAlgorithmTest.h"
-#include "Algorithm_FeaturesTracker.h"
-#include "Algorithm_TagAnTrack.h"
-#include "Algorithm_Sub_BinaryMask.h"
-#include "Algorithm_BinaryMaskWithOriginalFrame.h"
-#include "Algorithm_Watershed.h"
-#include "Algorithm_MeanShift.h"
-#include "Algorithm_ColorDetection.h"
-#include "Algorithm_FaceDetector.h"
-#include "Algorithm_EyeFaceDetector.h"
-#include "Algorithm_OomsChallenge.h"
-#include "Algorithm_Condensation.h"
-#include "Algorithm_CustomCondensationV1.h"
 #include "Algorithm_FaceDetector_Surf.h"
-#include "Algorithm_FeatureProjection.h"
-*/
 
 //===================================================
 // Le seul code auquel il faut toucher pour rajouter des algos à pouvoir exécuter, attention à respecter l'ordre!!
 
-FrameProcessor* MainWindow::generateProcessor(int index){
-    switch(index){
-    case 0:
-        return new NoProcessing();
-        /*
-    case 1:
-        return new Tagging();
-    case 2:
-        return new OomsAlgorithmTest();
-    case 3:
-        return new OomsAlgorithmTest(0.05,5);
-    case 4:
-        return new ColorDetection();
-    case 5:
-        return new FaceDetector();
-    case 6:
-        return new EyeFaceDetector();
-    case 7:
-        return new OomsChallenge();
-    case 8:
-        return new FeatureTracker();
-    case 9:
-        return new TagNTrack();
-    case 10:
-        return new Sub_BinaryMask();
-    case 11:
-        return new Watershed();
-    case 12:
-        return new MeanShift();
-    case 13:
-        return new Condensation();
-    case 14:
-        return new FaceDetector_Surf();
-    case 15:
-        return new BinaryMaskWithOriginalFrame();
-    case 16:
-        return new CustomCondensationV1();
-    case 17:
-        return new FeatureProjection();
-        //...
-*/
-    }
-
-    return NULL;
-}
-
-
-void MainWindow::initProcessingChoices(){
-    this->_processingChoice->addItem("Pas de traitement");
-    /*
-    this->_processingChoice->addItem("Tagging");
-    this->_processingChoice->addItem("OomsAlgorithmTest (default)");
-    this->_processingChoice->addItem("OomsAlgorithmTest (0.05,5)");
-    this->_processingChoice->addItem("Color detection");
-    this->_processingChoice->addItem("Face detection");
-    this->_processingChoice->addItem("Face and eye detector");
-    this->_processingChoice->addItem("Ooms Challenge");
-    this->_processingChoice->addItem("FeatureTracker");
-    this->_processingChoice->addItem("TagNTrack");
-    this->_processingChoice->addItem("Binary Mask");
-    this->_processingChoice->addItem("Watershed");
-    this->_processingChoice->addItem("MeanShift");
-    this->_processingChoice->addItem("Condensation");
-    this->_processingChoice->addItem("Face detection with surf");
-    this->_processingChoice->addItem("Binary Mask (original frame included)");
-    this->_processingChoice->addItem("CustomCondensationV1");
-    this->_processingChoice->addItem("FeatureProjection");
-    //...
-    */
+FaceDetector_Surf* MainWindow::generateProcessor(){
+    return new FaceDetector_Surf();
 }
 
 //===================================================
@@ -117,7 +33,7 @@ void MainWindow::centerWindow(){
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),_frameProcessorId(0){
 
-    this->setWindowTitle("FishTube");
+    this->setWindowTitle("FaceTube");
 
     this->_wraper = new QWidget(this);
     this->_wraper->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -125,12 +41,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //--------------------------------------------------------------------
     this->_inputChoice = new InputChoiceWidget();
-    this->_processingChoice = new ProcessingChoiceWidget();
-    this->initProcessingChoices();
     this->_upperBar = new QWidget();
     QHBoxLayout* upperBarLayout = new QHBoxLayout(this->_upperBar);
     upperBarLayout->addWidget(this->_inputChoice);
-    upperBarLayout->addWidget(this->_processingChoice);
+    upperBarLayout->addWidget(this->_rightCorner);
+    QHBoxLayout* buttonsLayout = new QHBoxLayout(this->_rightCorner);
+    buttonsLayout->addWidget(this->_addButton);
+    buttonsLayout->addWidget(this->_removeButton);
     this->_upperBar->setFixedWidth(640);
     this->_upperBar->setFixedHeight(30);
     upperBarLayout->setContentsMargins(0,0,0,0);
@@ -167,7 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this->_videoControls, SIGNAL(play()), this->_displayer, SLOT(play()));
     QObject::connect(this->_videoControls, SIGNAL(timeChanged(int)), this, SLOT(timeChangedSLOT(int)));
 
-    QObject::connect(this->_processingChoice, SIGNAL(currentIndexChanged(int)), this, SLOT(changeFrameProcessorSLOT(int)));
+    QObject::connect(this->_addButton, SIGNAL(clicked()), this, SLOT(addTargetPopUpSLOT()));
+    QObject::connect(this->_removeButton, SIGNAL(clicked()), this, SLOT(removeTargetPopUpSLOT()));
+
 
     this->setLayout(this->_layout);
     this->_streamProcessor->start();
@@ -219,7 +138,7 @@ void MainWindow::requestChangeSourceSLOT(QString filename){
 
 void MainWindow::sourceReady(){
     delete this->_frameProcessor;
-    this->_frameProcessor = this->generateProcessor(this->_frameProcessorId);
+    this->_frameProcessor = this->generateProcessor();
     this->_streamProcessor->reset(this->_streamReader, this->_frameProcessor);
     this->_streamInfo = this->_streamReader->getSourceInfo();
     int totalTime = 0, elapsedTime = 0;
@@ -250,22 +169,6 @@ void MainWindow::posChangedSLOT(int pos){
 
 void MainWindow::timeChangedSLOT(int time){
     this->_streamProcessor->jumpTo(time*this->_streamInfo.getFps());
-}
-
-void MainWindow::changeFrameProcessorSLOT(int index){
-    this->_frameProcessorId = index;
-    bool wasPlaying = this->_videoControls->isPlaying();
-    if(wasPlaying){
-        this->_displayer->pause();
-    }
-    this->_streamProcessor->stop();
-    delete this->_frameProcessor;
-    this->_frameProcessor = this->generateProcessor(index);
-    this->_streamProcessor->reset(this->_streamReader, this->_frameProcessor);
-    if(wasPlaying){
-        this->_displayer->play();
-        this->_videoControls->setPlaying();
-    }
 }
 
 void MainWindow::requestEnterFullScreenSLOT(){
@@ -309,4 +212,21 @@ void MainWindow::requestExitFullScreenSLOT(){
         this->_displayer->play();
         this->_videoControls->setPlaying();
     }
+}
+
+void MainWindow::addTargetSLOT(const QImage &img, const QString &name)
+{
+}
+
+
+void MainWindow::removeTargetSLOT(int id)
+{
+}
+
+void MainWindow::addTargetPopUpSLOT()
+{
+}
+
+void MainWindow::removeTargetPopUpSLOT()
+{
 }

@@ -7,10 +7,9 @@
 #include "VideoPlayControlsWidget.h"
 #include "StreamDisplayer.h"
 #include "InputChoiceWidget.h"
-#include "ProcessingChoiceWidget.h"
 #include "ImageDisplayerWidget.h"
-#include "FrameProcessor.h"
 #include "VideoStreamProcessor.h"
+#include "Algorithm_FaceDetector_Surf.h"
 #include <QKeyEvent>
 
 namespace Ui {
@@ -36,12 +35,13 @@ private:
     ImageDisplayerWidget* _videoFrame;
     QWidget* _upperBar;
     InputChoiceWidget* _inputChoice;
-    ProcessingChoiceWidget* _processingChoice;
+    QWidget* _rightCorner = new QWidget();
+    QPushButton* _addButton = new QPushButton("+");
+    QPushButton* _removeButton = new QPushButton("-");
     int _frameProcessorId;
 
     void sourceReady();
-    FrameProcessor* generateProcessor(int);
-    void initProcessingChoices();
+    FaceDetector_Surf* generateProcessor();
     void centerWindow();
 
 public:
@@ -54,9 +54,13 @@ public slots:
     void requestChangeSourceSLOT(QString);
     void posChangedSLOT(int);
     void timeChangedSLOT(int);
-    void changeFrameProcessorSLOT(int);
     void requestEnterFullScreenSLOT();
     void requestExitFullScreenSLOT();
+
+    void addTargetSLOT(const QImage& img, const QString& name);
+    void removeTargetSLOT(int id);
+    void addTargetPopUpSLOT();
+    void removeTargetPopUpSLOT();
 
 };
 
