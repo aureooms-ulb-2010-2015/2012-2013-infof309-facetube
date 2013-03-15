@@ -28,7 +28,21 @@ SOURCES += \
     TimeControlWidget.cpp \
     VideoPlayControlsWidget.cpp \
     PlayPauseButtonWidget.cpp \
-    SwaperWidget.cpp
+    SwaperWidget.cpp \
+    TimeDisplayerWidget.cpp \
+    InputChoiceWidget.cpp \
+    NetworkStreamInputDialog.cpp \
+    CustomButton.cpp \
+    CustomTextInput.cpp \
+    CustomComboBox.cpp \
+    ProcessingChoiceWidget.cpp \
+    VideoStreamProcessor.cpp \
+    Mat2QImage.cpp \
+    Algorithm_NoProcessing.cpp \
+    ImageDisplayerWidgetImpl.cpp \
+    ImageDisplayerWidgetImpl2.cpp \
+    OpenCV_GLWidget.cpp \
+    ImageDisplayerWidgetImpl3.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -38,7 +52,24 @@ HEADERS += \
     TimeControlWidget.h \
     VideoPlayControlsWidget.h \
     PlayPauseButtonWidget.h \
-    SwaperWidget.h
+    SwaperWidget.h \
+    TimeDisplayerWidget.h \
+    StreamDisplayer.h \
+    InputChoiceWidget.h \
+    NetworkStreamInputDialog.h \
+    CustomButton.h \
+    CustomTextInput.h \
+    CustomComboBox.h \
+    ProcessingChoiceWidget.h \
+    ImageDisplayerWidget.h \
+    FrameProcessor.h \
+    VideoStreamProcessor.h \
+    Mat2QImage.h \
+    Algorithm_NoProcessing.h \
+    ImageDisplayerWidgetImpl.h \
+    ImageDisplayerWidgetImpl2.h \
+    OpenCV_GLWidget.h \
+    ImageDisplayerWidgetImpl3.h
 
 RESOURCES += img.qrc \
     img.qrc
