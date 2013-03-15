@@ -12,7 +12,7 @@ QMAKE_CXXFLAGS += -std=c++0x
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = INFO-F-309-src
+TARGET = faceTube
 TEMPLATE = app
 
 CONFIG += link_pkgconfig
@@ -23,12 +23,22 @@ LIBS += -lv4l2 -lX11
 INCLUDEPATH += /usr/local/lib/
 
 SOURCES += \
+    MainWindow.cpp \
     Main.cpp \
-    MainWindow.cpp
-
+    TimeControlWidget.cpp \
+    VideoPlayControlsWidget.cpp \
+    PlayPauseButtonWidget.cpp \
+    SwaperWidget.cpp
 
 HEADERS += \
-    MainWindow.h
+    MainWindow.h \
+    VideoStreamReader.h \
+    Stream.h \
+    VideoStreamInfo.h \
+    TimeControlWidget.h \
+    VideoPlayControlsWidget.h \
+    PlayPauseButtonWidget.h \
+    SwaperWidget.h
 
 RESOURCES += img.qrc \
     img.qrc

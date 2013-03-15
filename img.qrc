@@ -2,5 +2,6 @@
     <qresource prefix="/new/prefix1">
         <file>img/pause_icon.png</file>
         <file>img/play_icon.png</file>
+        <file>qss/QComboBoxDropDown.qss</file>
     </qresource>
 </RCC>
