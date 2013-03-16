@@ -46,7 +46,8 @@ SOURCES += \
     OpenCV_SynchronizedGLWidget.cpp \
     GLWidgetRenderingThread.cpp \
     Algorithm_FaceDetector_Surf.cpp \
-    RobustMatcher.cpp
+    RobustMatcher.cpp \
+    AddTargetDialog.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -79,7 +80,8 @@ HEADERS += \
     VideoCaptureDeviceDetectorForLinux.h \
     VideoCaptureDeviceDetector.h \
     Algorithm_FaceDetector_Surf.h \
-    RobustMatcher.h
+    RobustMatcher.h \
+    AddTargetDialog.h
 
 RESOURCES += img.qrc \
     img.qrc

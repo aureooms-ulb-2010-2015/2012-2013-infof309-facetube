@@ -41,6 +41,9 @@ protected:
 
 public:
 
+    QQueue<cv::Mat> getOutPut(){
+        return this->_output;
+    }
 
     VideoStreamProcessor(Stream<cv::Mat>* source, FrameProcessor* processor,
                          size_t minBufferSize = STREAMPROCESSOR_MIN_BUFFER_SIZE,

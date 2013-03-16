@@ -7,6 +7,10 @@
 #include "ImageDisplayerWidgetImpl.h"
 #include "ImageDisplayerWidgetImpl2.h"
 #include "ImageDisplayerWidgetImpl3.h"
+#include "AddTargetDialog.h"
+
+
+#include <stdio.h>
 
 #include "Algorithm_FaceDetector_Surf.h"
 
@@ -223,9 +227,30 @@ void MainWindow::removeTargetSLOT(int id)
 {
 }
 
-void MainWindow::addTargetPopUpSLOT()
-{
+void MainWindow::addTargetPopUpSLOT() {
+    /*
+    cvNamedWindow( "mywindow", CV_WINDOW_AUTOSIZE );
+    IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
+    cvShowImage( "mywindow", frame );
+    */
+    AddTargetDialog* dialog = new AddTargetDialog(this);
+    dialog->exec() ;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void MainWindow::removeTargetPopUpSLOT()
 {
