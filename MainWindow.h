@@ -11,6 +11,7 @@
 #include "VideoStreamProcessor.h"
 #include "Algorithm_FaceDetector_Surf.h"
 #include <QKeyEvent>
+#include "CustomButton.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,8 +37,8 @@ private:
     QWidget* _upperBar;
     InputChoiceWidget* _inputChoice;
     QWidget* _rightCorner = new QWidget();
-    QPushButton* _addButton = new QPushButton("+");
-    QPushButton* _removeButton = new QPushButton("-");
+	QPushButton* _addButton = new CustomButton("+");
+	QPushButton* _removeButton = new CustomButton("-");
     int _frameProcessorId;
 
     void sourceReady();

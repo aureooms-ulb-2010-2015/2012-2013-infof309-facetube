@@ -1,7 +1,10 @@
 <RCC>
-    <qresource prefix="/new/prefix1">
-        <file>img/pause_icon.png</file>
-        <file>img/play_icon.png</file>
+    <qresource prefix="/">
+        <file alias="pause_icon">img/pause_icon.png</file>
+        <file alias="play_icon">img/play_icon.png</file>
         <file>qss/QComboBoxDropDown.qss</file>
+        <file>qss/timeControlSlider.qss</file>
+        <file>qss/QComboBox.qss</file>
+        <file>qss/CustomButton.qss</file>
     </qresource>
 </RCC>
