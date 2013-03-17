@@ -235,8 +235,10 @@ void MainWindow::addTargetPopUpSLOT() {
     IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
     cvShowImage( "mywindow", frame );
     */
-    cv::imwrite("data/target.png",this->_frameProcessor->getCurrentFace());
-    AddTargetDialog* dialog = new AddTargetDialog(this);
+	cv::Mat face = this->_frameProcessor->getCurrentFace();
+	QImage temp = Mat2QImage::exec(face);
+	cv::imwrite("data/target.png", face);
+	AddTargetDialog* dialog = new AddTargetDialog(QPixmap::fromImage(temp),this);
     dialog->exec() ;
 
 }

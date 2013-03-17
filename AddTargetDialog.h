@@ -10,6 +10,7 @@
 #include "CustomButton.h"
 #include "CustomTextInput.h"
 #include "CustomComboBox.h"
+#include <QPixmap>
 
 
 
@@ -17,13 +18,9 @@ class AddTargetDialog : public QDialog {
     Q_OBJECT
 
 private:
-    QGridLayout* _layout  = new QGridLayout(this);
-    QWidget* _firstLine = new QWidget();
-
-    QHBoxLayout* _firstLineLayout = new QHBoxLayout(this->_firstLine);
-    CustomComboBox* _protocol = new CustomComboBox();
-    CustomTextInput* _targetName = new CustomTextInput();
-    CustomTextInput* _port = new CustomTextInput();
+	QGridLayout* _layout  = new QGridLayout(this);
+	QLabel* _preview = new QLabel(this);
+	CustomTextInput* _targetName = new CustomTextInput();
     CustomButton* _confirmButton = new CustomButton("Ajouter");
     CustomButton* _cancelButton = new CustomButton("Annuler");
 
@@ -32,7 +29,7 @@ private:
 
 
 public:
-    explicit AddTargetDialog(QWidget *parent = 0);
+	explicit AddTargetDialog(const QPixmap &img, QWidget *parent = 0);
     virtual QString getResult();
     virtual void accept();
     

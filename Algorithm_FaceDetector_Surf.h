@@ -20,7 +20,7 @@ public:
     void process(const cv::Mat &in, cv::Mat &out);
 
     cv::Point getCorner() { return this->_corner; }
-    void setCorner(cv::Point point) { this->_corner=point; }
+	void setCorner(cv::Point point) { this->_corner = point; }
     cv::Mat getCurrentFace() { return this->_currentFace; }
 
     std::string readTargetFile();
