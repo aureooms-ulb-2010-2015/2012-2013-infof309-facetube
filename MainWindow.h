@@ -35,8 +35,7 @@ private:
     VideoPlayControlsWidget* _videoControls;
     ImageDisplayerWidget* _videoFrame;
     QWidget* _upperBar;
-    InputChoiceWidget* _inputChoice;
-    QWidget* _rightCorner = new QWidget();
+	InputChoiceWidget* _inputChoice;
 	QPushButton* _addButton = new CustomButton("+");
 	QPushButton* _removeButton = new CustomButton("-");
     int _frameProcessorId;
