@@ -5,6 +5,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/contrib/detection_based_tracker.hpp>
 #include <iostream>
+#include <fstream>
 #include "FrameProcessor.h"
 
 class FaceDetector_Surf : public FrameProcessor {
@@ -18,8 +19,10 @@ public:
     void process(const cv::Mat &in, cv::Mat &out);
 
     cv::Point getCorner() { return this->_corner; }
-    std::string getTargetName () { return this->_targetName; }
     void setCorner(cv::Point point) { this->_corner=point; }
+
+    std::string readTargetFile();
+
 };
 
 #endif // ALGORITHM_FACEDETECTOR_SURF_H

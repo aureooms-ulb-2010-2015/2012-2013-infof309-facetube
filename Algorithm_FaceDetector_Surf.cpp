@@ -48,9 +48,9 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
             label.x=((faces.at(0)).br()).x+10;
             label.y=((faces.at(0)).br()).y+10;
             if (recon) {
-                name =readTargetFile();
+                name = readTargetFile();
             }else {
-                name ="John Doe";
+                name ="";
             }
             cv::putText(out, name, label, cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(255,0,0), 1, CV_AA);
             std::cout << "\n corner x avant :"<< this->getCorner().x ;
@@ -64,7 +64,11 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 
 std::string FaceDetector_Surf::readTargetFile() {
     std::string name ="";
-    return name;
+    std::ifstream targetName ("data/target.txt");
+    if (targetName) {
+        std::getline(targetName, name);
+    }
+    return name;  
 }
 
 bool recognize(const cv::Mat &in, cv::Rect roi) {
