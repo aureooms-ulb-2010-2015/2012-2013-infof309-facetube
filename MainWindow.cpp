@@ -233,6 +233,7 @@ void MainWindow::addTargetPopUpSLOT() {
     IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
     cvShowImage( "mywindow", frame );
     */
+    cv::imwrite("data/target.png",this->_frameProcessor->getCurrentFace());
     AddTargetDialog* dialog = new AddTargetDialog(this);
     dialog->exec() ;
 

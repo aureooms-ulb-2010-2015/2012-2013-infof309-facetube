@@ -13,6 +13,7 @@ private:
     cv::CascadeClassifier _classifier;
     cv::Point _corner;
     std::string _targetName;
+    cv::Mat _currentFace;
 
 public:
     FaceDetector_Surf();
@@ -20,6 +21,7 @@ public:
 
     cv::Point getCorner() { return this->_corner; }
     void setCorner(cv::Point point) { this->_corner=point; }
+    cv::Mat getCurrentFace() { return this->_currentFace; }
 
     std::string readTargetFile();
 
