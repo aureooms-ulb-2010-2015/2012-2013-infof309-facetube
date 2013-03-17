@@ -48,7 +48,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
             label.x=((faces.at(0)).br()).x+10;
             label.y=((faces.at(0)).br()).y+10;
             if (recon) {
-                name ="Simon";
+                name =readTargetFile();
             }else {
                 name ="John Doe";
             }
@@ -62,12 +62,15 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     return;
 }
 
-
+std::string FaceDetector_Surf::readTargetFile() {
+    std::string name ="";
+    return name;
+}
 
 bool recognize(const cv::Mat &in, cv::Rect roi) {
 
     bool result= false;
-    cv::Mat image1 = cv::imread("data/sim.png",0);
+    cv::Mat image1 = cv::imread("data/target.png",0);
 
     // Prepare the matcher
     RobustMatcher rmatcher;
