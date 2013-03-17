@@ -21,14 +21,13 @@ private:
     QWidget* _firstLine = new QWidget();
 
     QHBoxLayout* _firstLineLayout = new QHBoxLayout(this->_firstLine);
-    CustomComboBox* _protocol = new CustomComboBox();
+    //CustomComboBox* _protocol = new CustomComboBox();
     CustomTextInput* _targetName = new CustomTextInput();
-    CustomTextInput* _port = new CustomTextInput();
+    //CustomTextInput* _port = new CustomTextInput();
     CustomButton* _confirmButton = new CustomButton("Ajouter");
     CustomButton* _cancelButton = new CustomButton("Annuler");
 
     QString _result;
-
 
 
 public:

@@ -18,7 +18,7 @@ public:
 class FrameProcessor : public Processor<cv::Mat>{
 public:
     virtual ~FrameProcessor(){}
-    virtual cv::Mat getCurrentFace(){}
+    virtual cv::Mat getCurrentFace() = 0;
 };
 
 #endif // FRAMEPROCESSOR_H

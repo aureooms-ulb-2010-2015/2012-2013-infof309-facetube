@@ -228,30 +228,10 @@ void MainWindow::removeTargetSLOT(int id)
 }
 
 void MainWindow::addTargetPopUpSLOT() {
-    /*
-    cvNamedWindow( "mywindow", CV_WINDOW_AUTOSIZE );
-    IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
-    cvShowImage( "mywindow", frame );
-    */
     cv::imwrite("data/target.png",this->_frameProcessor->getCurrentFace());
     AddTargetDialog* dialog = new AddTargetDialog(this);
-    dialog->exec() ;
-
+    dialog->exec();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void MainWindow::removeTargetPopUpSLOT()
 {

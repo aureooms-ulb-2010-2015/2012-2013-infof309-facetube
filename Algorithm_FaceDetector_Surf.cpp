@@ -51,8 +51,6 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
             label.y=((faces.at(0)).br()).y+10;
             if (recon) {
                 name = readTargetFile();
-                //cv::imwrite("data/test.png",out(faces.at(0)));
-
             }else {
                 name ="";
             }
