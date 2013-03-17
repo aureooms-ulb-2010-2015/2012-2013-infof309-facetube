@@ -46,15 +46,17 @@ MainWindow::MainWindow(QWidget *parent) :
     //--------------------------------------------------------------------
     this->_inputChoice = new InputChoiceWidget();
     this->_upperBar = new QWidget();
-    QHBoxLayout* upperBarLayout = new QHBoxLayout(this->_upperBar);
-    upperBarLayout->addWidget(this->_inputChoice);
-    upperBarLayout->addWidget(this->_rightCorner);
-    QHBoxLayout* buttonsLayout = new QHBoxLayout(this->_rightCorner);
-    buttonsLayout->addWidget(this->_addButton);
-    buttonsLayout->addWidget(this->_removeButton);
+	QGridLayout* upperBarLayout = new QGridLayout(this->_upperBar);
+	upperBarLayout->addWidget(this->_inputChoice,0,0,1,2);
+	upperBarLayout->addWidget(this->_addButton,0,2,1,1);
+	upperBarLayout->addWidget(this->_removeButton,0,3,1,1);
     this->_upperBar->setFixedWidth(640);
-    this->_upperBar->setFixedHeight(30);
-    upperBarLayout->setContentsMargins(0,0,0,0);
+	this->_upperBar->setFixedHeight(30);
+	this->_addButton->setFixedHeight(23);
+	this->_addButton->setFont(QFont("Times", 16, QFont::Bold));
+	this->_removeButton->setFixedHeight(23);
+	this->_removeButton->setFont(QFont("Times", 16, QFont::Bold));
+	upperBarLayout->setContentsMargins(0,0,0,0);
     //--------------------------------------------------------------------
     this->_videoFrame = new ImageDisplayerWidgetImpl();
     //--------------------------------------------------------------------

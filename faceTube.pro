@@ -101,4 +101,5 @@ OTHER_FILES += \
     utils/sample.py \
     data/bigfish.png \
     data/yellowfish.png \
-    data/target.txt
+    data/target.txt \
+    qss/CustomButton.qss
