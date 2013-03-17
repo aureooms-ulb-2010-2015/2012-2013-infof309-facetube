@@ -5,6 +5,7 @@
 #include <ostream>
 #include <iostream>
 
+
 FaceDetector_Surf::FaceDetector_Surf() {
     std::string filename = "xml/lpbcascade_frontalface.xml";
     this->_corner.x=0;
@@ -45,10 +46,13 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
             bool recon = recognize(in, faces.at(0));
             std::string name="";
             cv::Point label;
+            this->_currentFace=out(faces.at(0));
             label.x=((faces.at(0)).br()).x+10;
             label.y=((faces.at(0)).br()).y+10;
             if (recon) {
                 name = readTargetFile();
+                //cv::imwrite("data/test.png",out(faces.at(0)));
+
             }else {
                 name ="";
             }
@@ -62,6 +66,8 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     return;
 }
 
+
+
 std::string FaceDetector_Surf::readTargetFile() {
     std::string name ="";
     std::ifstream targetName ("data/target.txt");
@@ -70,6 +76,8 @@ std::string FaceDetector_Surf::readTargetFile() {
     }
     return name;  
 }
+
+
 
 bool recognize(const cv::Mat &in, cv::Rect roi) {
 
