@@ -27,7 +27,6 @@ private:
     QString _result;
 
 
-
 public:
 	explicit AddTargetDialog(const QPixmap &img, QWidget *parent = 0);
     virtual QString getResult();

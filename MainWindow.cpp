@@ -239,23 +239,8 @@ void MainWindow::addTargetPopUpSLOT() {
 	QImage temp = Mat2QImage::exec(face);
 	cv::imwrite("data/target.png", face);
 	AddTargetDialog* dialog = new AddTargetDialog(QPixmap::fromImage(temp),this);
-    dialog->exec() ;
-
+	dialog->exec() ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void MainWindow::removeTargetPopUpSLOT()
 {
