@@ -29,7 +29,7 @@ private:
 
     VideoStreamReader* _streamReader;
     VideoStreamProcessor* _streamProcessor;
-    FrameProcessor* _frameProcessor;
+	FaceDetector_Surf* _frameProcessor;
     StreamDisplayer* _displayer;
 
     VideoPlayControlsWidget* _videoControls;

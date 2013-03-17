@@ -17,8 +17,7 @@ public:
 // The frame processor interface
 class FrameProcessor : public Processor<cv::Mat>{
 public:
-    virtual ~FrameProcessor(){}
-    virtual cv::Mat getCurrentFace(){}
+	virtual ~FrameProcessor(){}
 };
 
 #endif // FRAMEPROCESSOR_H
