@@ -21,6 +21,8 @@ LIBS += -lv4l2 -lX11 -L ../ -llib309
 #LIBS += -lwavelet2d -Lwavelet2s
 
 INCLUDEPATH += /usr/local/lib/ ../lib309
+DEPENDPATH += ../lib309
+static:unix:TARGETDEPS += ../liblib309.a
 
 SOURCES += \
     MainWindow.cpp \
