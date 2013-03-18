@@ -17,34 +17,14 @@ TEMPLATE = app
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv
-LIBS += -lv4l2 -lX11
+LIBS += -lv4l2 -lX11 -L ../ -llib309
 #LIBS += -lwavelet2d -Lwavelet2s
 
-INCLUDEPATH += /usr/local/lib/
+INCLUDEPATH += /usr/local/lib/ ../lib309
 
 SOURCES += \
     MainWindow.cpp \
     Main.cpp \
-    TimeControlWidget.cpp \
-    VideoPlayControlsWidget.cpp \
-    PlayPauseButtonWidget.cpp \
-    SwaperWidget.cpp \
-    TimeDisplayerWidget.cpp \
-    InputChoiceWidget.cpp \
-    NetworkStreamInputDialog.cpp \
-    CustomButton.cpp \
-    CustomTextInput.cpp \
-    CustomComboBox.cpp \
-    ProcessingChoiceWidget.cpp \
-    VideoStreamProcessor.cpp \
-    Mat2QImage.cpp \
-    Algorithm_NoProcessing.cpp \
-    ImageDisplayerWidgetImpl.cpp \
-    ImageDisplayerWidgetImpl2.cpp \
-    OpenCV_GLWidget.cpp \
-    ImageDisplayerWidgetImpl3.cpp \
-    OpenCV_SynchronizedGLWidget.cpp \
-    GLWidgetRenderingThread.cpp \
     Algorithm_FaceDetector_Surf.cpp \
     RobustMatcher.cpp \
     AddTargetDialog.cpp \
@@ -52,34 +32,6 @@ SOURCES += \
 
 HEADERS += \
     MainWindow.h \
-    VideoStreamReader.h \
-    Stream.h \
-    VideoStreamInfo.h \
-    TimeControlWidget.h \
-    VideoPlayControlsWidget.h \
-    PlayPauseButtonWidget.h \
-    SwaperWidget.h \
-    TimeDisplayerWidget.h \
-    StreamDisplayer.h \
-    InputChoiceWidget.h \
-    NetworkStreamInputDialog.h \
-    CustomButton.h \
-    CustomTextInput.h \
-    CustomComboBox.h \
-    ProcessingChoiceWidget.h \
-    ImageDisplayerWidget.h \
-    FrameProcessor.h \
-    VideoStreamProcessor.h \
-    Mat2QImage.h \
-    Algorithm_NoProcessing.h \
-    ImageDisplayerWidgetImpl.h \
-    ImageDisplayerWidgetImpl2.h \
-    OpenCV_GLWidget.h \
-    ImageDisplayerWidgetImpl3.h \
-    OpenCV_SynchronizedGLWidget.h \
-    GLWidgetRenderingThread.h \
-    VideoCaptureDeviceDetectorForLinux.h \
-    VideoCaptureDeviceDetector.h \
     Algorithm_FaceDetector_Surf.h \
     RobustMatcher.h \
     AddTargetDialog.h \
