@@ -21,9 +21,11 @@ FaceDetector_Surf::FaceDetector_Surf() {
 
 void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     this->_allTargetsLock.lock();
-    Targets targets = this->_allTargets;
-    std::cout << this->_allTargets.size() << std::endl;
-    this->_allTargetsLock.unlock();
+	Targets targets = this->_allTargets;
+	this->_trackedFacesLock.lock();
+	TrackedFaces lastlyTrackedFaces = this->_trackedFaces;
+	this->_trackedFacesLock.unlock();
+	this->_allTargetsLock.unlock();
 
     _availableFlags.clear();
     _availableFlags.resize(targets.size(), true);
@@ -56,7 +58,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     TrackedFaces trackedFaces;
     for (const cv::Rect& face : faces){
 
-        DetectedFace detectedFace = recognize(in, face, targets);
+		DetectedFace detectedFace = recognize(in, face, targets, lastlyTrackedFaces);
 
         detectedFaces.push_back(detectedFace);
         if(detectedFace.isRecognized){
@@ -77,7 +79,19 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     this->_currentFacesLock.lock();
     this->_currentFaces = detectedFaces;
     this->_currentFacesLock.unlock();
-    this->_trackedFaces = trackedFaces;
+	this->_trackedFacesLock.lock();
+	this->_trackedFaces = trackedFaces;
+	for(size_t ind : this->_removedDuringProcessing){
+		size_t j = 0;
+		for(size_t i = 0; i < this->_trackedFaces.size(); ++i){
+			if(this->_trackedFaces.at(i-j).index == ind){
+				this->_trackedFaces.erase(this->_trackedFaces.begin()+i-j);
+				++j;
+			}
+		}
+	}
+	this->_removedDuringProcessing.clear();
+	this->_trackedFacesLock.unlock();
 
     return;
 }
@@ -85,16 +99,16 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 
 
 
-FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, cv::Rect roi, const Targets& targets) {
+FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, cv::Rect roi, const Targets& targets, const TrackedFaces &lastlyTrackedFaces) {
 
 
     cv::Point center;
     center.x = roi.x + roi.width/2;
     center.y = roi.y + roi.height/2;
 
-    for(size_t i = 0; i < _trackedFaces.size(); ++i){
+	for(size_t i = 0; i < lastlyTrackedFaces.size(); ++i){
         std::cout << "tracking" << std::endl;
-        TrackedFace* trackedFace = &_trackedFaces.at(i);
+		const TrackedFace* trackedFace = &lastlyTrackedFaces.at(i);
         cv::Point previousCenter;
         previousCenter.x = trackedFace->rect.x + trackedFace->rect.width/2;
         previousCenter.y = trackedFace->rect.y + trackedFace->rect.height/2;

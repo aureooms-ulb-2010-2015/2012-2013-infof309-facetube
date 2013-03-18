@@ -42,6 +42,8 @@ public:
     typedef std::pair<size_t, size_t> Score;
     typedef std::vector<bool> AvailableFlags;
 
+	typedef std::vector<size_t> RemovedTargets;
+
 private:
     cv::CascadeClassifier _classifier;
     DetectedFaces _currentFaces;
@@ -51,11 +53,14 @@ private:
 
     RobustMatcher rmatcher;
 
-    QMutex _currentFacesLock;
-    QMutex _allTargetsLock;
+	QMutex _currentFacesLock;
+	QMutex _allTargetsLock;
+	QMutex _trackedFacesLock;
+
+	RemovedTargets _removedDuringProcessing;
 
 
-    DetectedFace recognize(const cv::Mat& , cv::Rect, const Targets &targets);
+	DetectedFace recognize(const cv::Mat& , cv::Rect, const Targets &targets, const TrackedFaces& lastlyTrackedFaces);
 
 public:
     FaceDetector_Surf();
@@ -83,15 +88,18 @@ public:
 
     void removeTarget(size_t index){
         this->_allTargetsLock.lock();
-        this->_allTargets.erase(this->_allTargets.begin()+index);
-        size_t j = 0;
+		this->_allTargets.erase(this->_allTargets.begin()+index);
+		size_t j = 0;
+		this->_trackedFacesLock.lock();
         for(size_t i = 0; i < this->_trackedFaces.size(); ++i){
             if(this->_trackedFaces.at(i-j).index == index){
                 this->_trackedFaces.erase(this->_trackedFaces.begin()+i-j);
                 ++j;
             }
-        }
-        this->_allTargetsLock.unlock();
+		}
+		this->_removedDuringProcessing.push_back(index);
+		this->_trackedFacesLock.unlock();
+		this->_allTargetsLock.unlock();
     }
 
     void editTarget(const DetectedFace& face){
