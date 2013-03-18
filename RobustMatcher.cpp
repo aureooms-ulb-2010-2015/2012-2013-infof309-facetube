@@ -5,7 +5,6 @@ RobustMatcher::RobustMatcher() : _ratio(0.65f), _refineF(true), _confidence(0.99
     // SURF is the default feature
     this->_detector = new cv::SurfFeatureDetector();
     this->_extractor = new cv::SurfDescriptorExtractor();
-    this->_reconized =  false;
 }
 
 
@@ -113,10 +112,6 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
     }
 
     std::cout << "Number of matched points (after cleaning): " << outMatches.size() << std::endl;
-    if (outMatches.size()>13){
-        //std::cout << "true";
-        this->_reconized = true;
-	}
 
 	if (outMatches.empty()) return fundamental;
 

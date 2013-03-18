@@ -7,23 +7,71 @@
 #include <iostream>
 #include <fstream>
 #include "FrameProcessor.h"
+#include "RobustMatcher.h"
+#include <map>
 
 class FaceDetector_Surf : public FrameProcessor {
+public:
+
+    typedef struct{
+        cv::Mat picture;
+        std::string name;
+    } Target;
+
+    typedef std::vector<Target> Targets;
+
+
+    typedef struct{
+        Target target;
+        bool isRecognized;
+        size_t index;
+    } DetectedFace;
+
+    typedef std::vector<DetectedFace> DetectedFaces;
+
+    typedef struct{
+        Target target;
+        cv::Rect rect;
+        size_t index;
+    } TrackedFace;
+
+    typedef std::vector<TrackedFace> TrackedFaces;
+
+    typedef std::map<size_t, size_t> Scores;
+    typedef std::pair<size_t, size_t> Score;
+    typedef std::vector<bool> AvailableFlags;
+
 private:
     cv::CascadeClassifier _classifier;
-    cv::Point _corner;
-    std::string _targetName;
-    cv::Mat _currentFace;
+    DetectedFaces _currentFaces;
+    Targets _allTargets;
+    AvailableFlags _availableFlags;
+    TrackedFaces _trackedFaces;
+
+    RobustMatcher rmatcher;
+
+
+    DetectedFace recognize(const cv::Mat& , cv::Rect);
 
 public:
     FaceDetector_Surf();
     void process(const cv::Mat &in, cv::Mat &out);
 
-    cv::Point getCorner() { return this->_corner; }
-	void setCorner(cv::Point point) { this->_corner = point; }
-    cv::Mat getCurrentFace() { return this->_currentFace; }
+    const DetectedFaces& getCurrentFaces(){
+        return this->_currentFaces;
+    }
 
-    std::string readTargetFile();
+    void addTarget(const Target& target){
+        this->_allTargets.push_back(target);
+    }
+
+    void removeTarget(size_t index){
+        this->_allTargets.erase(this->_allTargets.begin()+index);
+    }
+
+    void editTarget(const DetectedFace& face){
+        this->_allTargets.at(face.index) = face.target;
+    }
 
 };
 

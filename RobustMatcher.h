@@ -22,8 +22,7 @@ private:
     float _ratio;       // max ratio between 1st and 2nd NN
     bool _refineF;      // if true will refine the F matrix
 	double _confidence; // confidence level (probability)
-	double _distance;   // min distance to epipolar
-    bool _reconized;
+    double _distance;   // min distance to epipolar
 
 
 public:
@@ -57,10 +56,6 @@ public:
     // if you want the F matrix to be recalculated
     void refineFundamental(bool flag) {
         this->_refineF = flag;
-    }
-
-    bool getRecognition() {
-      return this->_reconized;
     }
 
     int ratioTest(std::vector<std::vector<cv::DMatch> >& matches);

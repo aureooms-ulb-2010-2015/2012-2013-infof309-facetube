@@ -230,16 +230,27 @@ void MainWindow::removeTargetSLOT(int id)
 }
 
 void MainWindow::addTargetPopUpSLOT() {
+    if(this->_frameProcessor == NULL) return;
     /*
     cvNamedWindow( "mywindow", CV_WINDOW_AUTOSIZE );
     IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
     cvShowImage( "mywindow", frame );
     */
-	cv::Mat face = this->_frameProcessor->getCurrentFace();
-	QImage temp = Mat2QImage::exec(face);
-	cv::imwrite("data/target.png", face);
-	AddTargetDialog* dialog = new AddTargetDialog(QPixmap::fromImage(temp),this);
+    FaceDetector_Surf::DetectedFaces faces = this->_frameProcessor->getCurrentFaces();
+    //QImage temp = Mat2QImage::exec(face);
+    AddTargetDialog* dialog = new AddTargetDialog(faces,this);
 	dialog->exec() ;
+
+    for(size_t i = 0; i < faces.size(); ++i){
+        if(faces.at(i).target.name != dialog->faces().at(i).target.name){
+            if(faces.at(i).isRecognized){
+                this->_frameProcessor->editTarget(dialog->faces().at(i));
+            }
+            else{
+                this->_frameProcessor->addTarget(dialog->faces().at(i).target);
+            }
+        }
+    }
 }
 
 void MainWindow::removeTargetPopUpSLOT()
