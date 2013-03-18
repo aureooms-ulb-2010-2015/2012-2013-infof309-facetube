@@ -68,6 +68,13 @@ public:
         return detectedFaces;
     }
 
+    Targets getTargets(){
+        this->_allTargetsLock.lock();
+        Targets targets = this->_allTargets;
+        this->_allTargetsLock.unlock();
+        return targets;
+    }
+
     void addTarget(const Target& target){
         this->_allTargetsLock.lock();
         this->_allTargets.push_back(target);
@@ -77,6 +84,13 @@ public:
     void removeTarget(size_t index){
         this->_allTargetsLock.lock();
         this->_allTargets.erase(this->_allTargets.begin()+index);
+        size_t j = 0;
+        for(size_t i = 0; i < this->_trackedFaces.size(); ++i){
+            if(this->_trackedFaces.at(i-j).index == index){
+                this->_trackedFaces.erase(this->_trackedFaces.begin()+i-j);
+                ++j;
+            }
+        }
         this->_allTargetsLock.unlock();
     }
 

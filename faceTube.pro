@@ -47,7 +47,8 @@ SOURCES += \
     GLWidgetRenderingThread.cpp \
     Algorithm_FaceDetector_Surf.cpp \
     RobustMatcher.cpp \
-    AddTargetDialog.cpp
+    AddTargetDialog.cpp \
+    RemoveTargetDialog.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -81,7 +82,8 @@ HEADERS += \
     VideoCaptureDeviceDetector.h \
     Algorithm_FaceDetector_Surf.h \
     RobustMatcher.h \
-    AddTargetDialog.h
+    AddTargetDialog.h \
+    RemoveTargetDialog.h
 
 RESOURCES += img.qrc \
     img.qrc

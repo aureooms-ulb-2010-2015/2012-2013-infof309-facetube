@@ -21,13 +21,11 @@ class AddTargetDialog : public QDialog {
 private:
     QGridLayout* _layout  = new QGridLayout(this);
     std::vector<CustomTextInput*> _inputs;
-    QString _result;
     FaceDetector_Surf::DetectedFaces _faces;
 
 
 public:
     explicit AddTargetDialog(const FaceDetector_Surf::DetectedFaces &faces, QWidget *parent = 0);
-    virtual QString getResult();
     virtual void accept();
     virtual const FaceDetector_Surf::DetectedFaces& faces(){return _faces;}
     

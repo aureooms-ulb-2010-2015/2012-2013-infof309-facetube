@@ -57,8 +57,6 @@ public slots:
     void requestEnterFullScreenSLOT();
     void requestExitFullScreenSLOT();
 
-    void addTargetSLOT(const QImage& img, const QString& name);
-    void removeTargetSLOT(int id);
     void addTargetPopUpSLOT();
     void removeTargetPopUpSLOT();
 

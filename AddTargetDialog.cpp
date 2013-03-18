@@ -41,10 +41,6 @@ AddTargetDialog::AddTargetDialog(const FaceDetector_Surf::DetectedFaces &faces, 
     }
 }
 
-QString AddTargetDialog::getResult(){
-    return this->_result;
-}
-
 
 void AddTargetDialog::accept(){
     for(size_t i = 0; i < _faces.size(); ++i){

@@ -8,6 +8,7 @@
 #include "ImageDisplayerWidgetImpl2.h"
 #include "ImageDisplayerWidgetImpl3.h"
 #include "AddTargetDialog.h"
+#include "RemoveTargetDialog.h"
 
 
 #include <stdio.h>
@@ -220,40 +221,38 @@ void MainWindow::requestExitFullScreenSLOT(){
     }
 }
 
-void MainWindow::addTargetSLOT(const QImage &img, const QString &name)
-{
-}
-
-
-void MainWindow::removeTargetSLOT(int id)
-{
-}
-
 void MainWindow::addTargetPopUpSLOT() {
     if(this->_frameProcessor == NULL) return;
-    /*
-    cvNamedWindow( "mywindow", CV_WINDOW_AUTOSIZE );
-    IplImage* frame ;//  this->_streamProcessor->getOutPut()[0] ;
-    cvShowImage( "mywindow", frame );
-    */
-    FaceDetector_Surf::DetectedFaces faces = this->_frameProcessor->getCurrentFaces();
-    //QImage temp = Mat2QImage::exec(face);
-    AddTargetDialog* dialog = new AddTargetDialog(faces,this);
-	dialog->exec() ;
 
-    for(size_t i = 0; i < faces.size(); ++i){
-        std::cout << faces.at(i).target.name << ", " <<  dialog->faces().at(i).target.name << std::cout;
-        if(faces.at(i).target.name != dialog->faces().at(i).target.name){
-            if(faces.at(i).isRecognized){
-                this->_frameProcessor->editTarget(dialog->faces().at(i));
-            }
-            else{
-                this->_frameProcessor->addTarget(dialog->faces().at(i).target);
+    FaceDetector_Surf::DetectedFaces faces = this->_frameProcessor->getCurrentFaces();
+    AddTargetDialog* dialog = new AddTargetDialog(faces,this);
+
+    if (dialog->exec() == QDialog::Accepted) {
+        for(size_t i = 0; i < faces.size(); ++i){
+            std::cout << faces.at(i).target.name << ", " <<  dialog->faces().at(i).target.name << std::cout;
+            if(faces.at(i).target.name != dialog->faces().at(i).target.name && dialog->faces().at(i).target.name != ""){
+                if(faces.at(i).isRecognized){
+                    this->_frameProcessor->editTarget(dialog->faces().at(i));
+                }
+                else{
+                    this->_frameProcessor->addTarget(dialog->faces().at(i).target);
+                }
             }
         }
     }
 }
 
-void MainWindow::removeTargetPopUpSLOT()
-{
+void MainWindow::removeTargetPopUpSLOT(){
+    if(this->_frameProcessor == NULL) return;
+    FaceDetector_Surf::Targets targets = this->_frameProcessor->getTargets();
+    RemoveTargetDialog* dialog = new RemoveTargetDialog(targets, this);
+    if (dialog->exec() == QDialog::Accepted) {
+        size_t j = 0;
+        for(size_t i = 0; i < targets.size(); ++i){
+            if(dialog->getActions().at(i)){
+                this->_frameProcessor->removeTarget(i-j);
+                ++j;
+            }
+        }
+    }
 }

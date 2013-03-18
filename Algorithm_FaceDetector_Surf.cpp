@@ -62,7 +62,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
         if(detectedFace.isRecognized){
             cv::Point label;
             label.x = face.tl().x + face.width/2 - detectedFace.target.name.size()*10/2;
-            label.y = face.br().y + 10;
+            label.y = face.br().y + 15;
             cv::putText(out, detectedFace.target.name, label, cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(255,0,0), 1, CV_AA);
 
             TrackedFace trackedFace;
@@ -112,7 +112,7 @@ FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, 
 
 
     Score bestMatch;
-    cv::Mat face = in(roi);
+    cv::Mat face = in(roi).clone();
 
     for(size_t i = 0; i < targets.size(); ++i){
         std::cout << "surf[" << i << "]" << std::endl;
