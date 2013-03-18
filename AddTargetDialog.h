@@ -20,8 +20,6 @@ class AddTargetDialog : public QDialog {
 
 private:
     QGridLayout* _layout  = new QGridLayout(this);
-    CustomButton* _confirmButton = new CustomButton("Ajouter");
-    CustomButton* _cancelButton = new CustomButton("Annuler");
     std::vector<CustomTextInput*> _inputs;
     QString _result;
     FaceDetector_Surf::DetectedFaces _faces;

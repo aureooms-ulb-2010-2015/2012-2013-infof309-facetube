@@ -20,8 +20,13 @@ FaceDetector_Surf::FaceDetector_Surf() {
 
 
 void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
+    this->_allTargetsLock.lock();
+    Targets targets = this->_allTargets;
+    std::cout << this->_allTargets.size() << std::endl;
+    this->_allTargetsLock.unlock();
 
-    _availableFlags.resize(this->_allTargets.size(), true);
+    _availableFlags.clear();
+    _availableFlags.resize(targets.size(), true);
 
     // Create a new image based on the input image
     out = in.clone();
@@ -39,7 +44,8 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     }
 
     cv::Point point;
-    point.x=20; point.y=20;
+    point.x = 20;
+    point.y = 20;
 
     std::ostringstream faces_;
     faces_ << "Number of Faces : " << faces.size();
@@ -50,7 +56,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     TrackedFaces trackedFaces;
     for (const cv::Rect& face : faces){
 
-        DetectedFace detectedFace = recognize(in, face);
+        DetectedFace detectedFace = recognize(in, face, targets);
 
         detectedFaces.push_back(detectedFace);
         if(detectedFace.isRecognized){
@@ -68,7 +74,9 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
         }
     }
 
+    this->_currentFacesLock.lock();
     this->_currentFaces = detectedFaces;
+    this->_currentFacesLock.unlock();
     this->_trackedFaces = trackedFaces;
 
     return;
@@ -77,7 +85,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 
 
 
-FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, cv::Rect roi) {
+FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, cv::Rect roi, const Targets& targets) {
 
 
     cv::Point center;
@@ -85,12 +93,14 @@ FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, 
     center.y = roi.y + roi.height/2;
 
     for(size_t i = 0; i < _trackedFaces.size(); ++i){
+        std::cout << "tracking" << std::endl;
         TrackedFace* trackedFace = &_trackedFaces.at(i);
         cv::Point previousCenter;
         previousCenter.x = trackedFace->rect.x + trackedFace->rect.width/2;
         previousCenter.y = trackedFace->rect.y + trackedFace->rect.height/2;
 
-        if(abs(center.x - previousCenter.y) <= 50){
+        if(abs(center.x - previousCenter.x) <= 50 && abs(center.y - previousCenter.y) <= 50){
+            std::cout << "tracked" << std::endl;
             DetectedFace detectedFace;
             detectedFace.isRecognized = true;
             detectedFace.target = trackedFace->target;
@@ -102,13 +112,15 @@ FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, 
 
 
     Score bestMatch;
+    cv::Mat face = in(roi);
 
-    for(size_t i = 0; i < _allTargets.size(); ++i){
+    for(size_t i = 0; i < targets.size(); ++i){
+        std::cout << "surf[" << i << "]" << std::endl;
         if(!_availableFlags.at(i)) continue;
+        std::cout << "available" << std::endl;
 
-        Target* target =  &this->_allTargets.at(i);
+        const Target* target =  &targets.at(i);
         cv::Mat model = target->picture;
-        cv::Mat face = in(roi);
 
 
         // Match the two images
@@ -133,14 +145,17 @@ FaceDetector_Surf::DetectedFace FaceDetector_Surf::recognize(const cv::Mat &in, 
     DetectedFace detectedFace;
     detectedFace.isRecognized = bestMatch.first > 13;
     if(detectedFace.isRecognized){
-        detectedFace.target = this->_allTargets.at(bestMatch.second);
+        detectedFace.target = targets.at(bestMatch.second);
         detectedFace.index = bestMatch.second;
         _availableFlags.at(detectedFace.index) = false;
+    }
+    else{
+        Target target;
+        target.picture = face;
+        target.name = "Inconnu";
+        detectedFace.target = target;
     }
 
     return detectedFace;
 }
 
-void addTarget(const cv::Mat& picture, const std::string& label){
-
-}

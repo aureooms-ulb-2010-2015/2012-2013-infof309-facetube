@@ -9,6 +9,7 @@
 #include "FrameProcessor.h"
 #include "RobustMatcher.h"
 #include <map>
+#include <QMutex>
 
 class FaceDetector_Surf : public FrameProcessor {
 public:
@@ -50,27 +51,39 @@ private:
 
     RobustMatcher rmatcher;
 
+    QMutex _currentFacesLock;
+    QMutex _allTargetsLock;
 
-    DetectedFace recognize(const cv::Mat& , cv::Rect);
+
+    DetectedFace recognize(const cv::Mat& , cv::Rect, const Targets &targets);
 
 public:
     FaceDetector_Surf();
     void process(const cv::Mat &in, cv::Mat &out);
 
-    const DetectedFaces& getCurrentFaces(){
-        return this->_currentFaces;
+    DetectedFaces getCurrentFaces(){
+        this->_currentFacesLock.lock();
+        DetectedFaces detectedFaces = this->_currentFaces;
+        this->_currentFacesLock.unlock();
+        return detectedFaces;
     }
 
     void addTarget(const Target& target){
+        this->_allTargetsLock.lock();
         this->_allTargets.push_back(target);
+        this->_allTargetsLock.unlock();
     }
 
     void removeTarget(size_t index){
+        this->_allTargetsLock.lock();
         this->_allTargets.erase(this->_allTargets.begin()+index);
+        this->_allTargetsLock.unlock();
     }
 
     void editTarget(const DetectedFace& face){
+        this->_allTargetsLock.lock();
         this->_allTargets.at(face.index) = face.target;
+        this->_allTargetsLock.unlock();
     }
 
 };

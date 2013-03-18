@@ -242,6 +242,7 @@ void MainWindow::addTargetPopUpSLOT() {
 	dialog->exec() ;
 
     for(size_t i = 0; i < faces.size(); ++i){
+        std::cout << faces.at(i).target.name << ", " <<  dialog->faces().at(i).target.name << std::cout;
         if(faces.at(i).target.name != dialog->faces().at(i).target.name){
             if(faces.at(i).isRecognized){
                 this->_frameProcessor->editTarget(dialog->faces().at(i));
