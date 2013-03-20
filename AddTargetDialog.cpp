@@ -34,9 +34,10 @@ AddTargetDialog::AddTargetDialog(const FaceDetector_Surf::DetectedFaces &faces, 
     else{
         QLabel* msg = new QLabel(this);
         msg->setText("Aucun visage détecté.");
-        this->_layout->addWidget(msg,0,0,1,1);
+		this->_layout->addWidget(msg,0,0,1,3);
         CustomButton* closeButton = new CustomButton("Ok");
-        this->_layout->addWidget(closeButton,1,0,1,1);
+		this->_layout->addWidget(closeButton,1,1,1,1);
+		this->resize(this->width(), 100);
         QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
     }
 
