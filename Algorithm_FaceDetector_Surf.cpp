@@ -34,6 +34,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 	//out = in.clone();
 
 	//invert x axis (1 for x axis)
+	cv::Mat temp;
 	cv::flip(in,temp,1);
 	out = temp.clone();
 
