@@ -36,6 +36,7 @@ RemoveTargetDialog::RemoveTargetDialog(const FaceDetector_Surf::Targets& targets
         this->_layout->addWidget(closeButton,1,0,1,1);
         QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
     }
+	this->setWindowTitle("Facetube - Supprimer une cible");
 }
 
 

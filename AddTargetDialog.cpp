@@ -39,6 +39,8 @@ AddTargetDialog::AddTargetDialog(const FaceDetector_Surf::DetectedFaces &faces, 
         this->_layout->addWidget(closeButton,1,0,1,1);
         QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
     }
+
+	this->setWindowTitle("Facetube - Ajouter une cible");
 }
 
 
