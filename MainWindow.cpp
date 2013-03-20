@@ -132,6 +132,14 @@ void MainWindow::keyPressEvent(QKeyEvent* event){
 		return this->playPauseToggle();
 	}
 
+	else if(event->key() == Qt::Key_F7){
+		this->addTargetPopUpSLOT();
+	}
+
+	else if(event->key() == Qt::Key_F8){
+		this->removeTargetPopUpSLOT();
+	}
+
 	return QWidget::keyPressEvent(event);
 }
 
