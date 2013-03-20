@@ -16,6 +16,7 @@ AddTargetDialog::AddTargetDialog(const FaceDetector_Surf::DetectedFaces &faces, 
             this->_layout->addWidget(preview,0,i,1,2);
             this->_layout->addWidget(_inputs.at(_inputs.size()-1),1,i,1,2);
             preview->setPixmap(QPixmap::fromImage(Mat2QImage::exec(face.target.picture)));
+			preview->setAlignment(Qt::AlignCenter);
             _inputs.at(_inputs.size()-1)->setPlaceholderText("Nom de la cible");
 
             if(face.isRecognized){
