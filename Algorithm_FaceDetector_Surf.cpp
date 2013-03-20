@@ -31,7 +31,10 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     _availableFlags.resize(targets.size(), true);
 
     // Create a new image based on the input image
-    out = in.clone();
+	//out = in.clone();
+
+	//invert x axis (1 for x axis)
+	cv::flip(in,out,1);
 
     // There can be more than one face in an image
     std::vector<cv::Rect> faces;
@@ -92,6 +95,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 	}
 	this->_removedDuringProcessing.clear();
 	this->_trackedFacesLock.unlock();
+
 
     return;
 }
