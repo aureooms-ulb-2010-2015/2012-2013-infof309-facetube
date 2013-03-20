@@ -41,7 +41,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     std::vector<cv::Rect> faces;
 
     // Detect the objects and store them in the sequence
-    this->_classifier.detectMultiScale(out, faces, 1.2, 3, CV_HAAR_DO_CANNY_PRUNING, cv::Size(25, 25));
+	this->_classifier.detectMultiScale(temp, faces, 1.2, 3, CV_HAAR_DO_CANNY_PRUNING, cv::Size(25, 25));
 
     // Loop the number of faces found.
     for( size_t i = 0; i < faces.size(); ++i )  {
