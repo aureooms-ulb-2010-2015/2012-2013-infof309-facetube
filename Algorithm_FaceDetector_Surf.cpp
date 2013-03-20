@@ -34,7 +34,8 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
 	//out = in.clone();
 
 	//invert x axis (1 for x axis)
-	cv::flip(in,out,1);
+	cv::flip(in,temp,1);
+	out = temp.clone();
 
     // There can be more than one face in an image
     std::vector<cv::Rect> faces;
@@ -61,7 +62,7 @@ void FaceDetector_Surf::process(const cv::Mat &in, cv::Mat &out) {
     TrackedFaces trackedFaces;
     for (const cv::Rect& face : faces){
 
-		DetectedFace detectedFace = recognize(in, face, targets, lastlyTrackedFaces);
+		DetectedFace detectedFace = recognize(temp, face, targets, lastlyTrackedFaces);
 
         detectedFaces.push_back(detectedFace);
         if(detectedFace.isRecognized){

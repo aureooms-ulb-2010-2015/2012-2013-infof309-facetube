@@ -59,6 +59,8 @@ private:
 
 	RemovedTargets _removedDuringProcessing;
 
+	cv::Mat temp;
+
 
 	DetectedFace recognize(const cv::Mat& , cv::Rect, const Targets &targets, const TrackedFaces& lastlyTrackedFaces);
 
