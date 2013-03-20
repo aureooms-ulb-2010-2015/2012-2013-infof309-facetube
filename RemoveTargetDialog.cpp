@@ -12,7 +12,10 @@ RemoveTargetDialog::RemoveTargetDialog(const FaceDetector_Surf::Targets& targets
 
             QLabel* preview = new QLabel(this);
             preview->setPixmap(QPixmap::fromImage(Mat2QImage::exec(target.picture)));
+			preview->setAlignment(Qt::AlignCenter);
             QLabel* name = new QLabel(target.name.c_str(), this);
+			name->setAlignment(Qt::AlignCenter);
+			name->setFont(QFont("Helvetica", 12, QFont::Bold));
             _inputs.push_back(new QCheckBox());
 
             this->_layout->addWidget(_inputs.at(_inputs.size()-1),0,i+1,1,2);
