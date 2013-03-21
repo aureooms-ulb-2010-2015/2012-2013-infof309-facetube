@@ -132,6 +132,16 @@ void MainWindow::keyPressEvent(QKeyEvent* event){
 		return this->playPauseToggle();
 	}
 
+	else if(event->key() == Qt::Key_F2){
+		return this->_inputChoice->setCurrentIndex(1);
+	}
+	else if(event->key() == Qt::Key_F3){
+		return this->_inputChoice->setCurrentIndex(2);
+	}
+	else if(event->key() == Qt::Key_F4 && this->_inputChoice->count() >= 4){
+		return this->_inputChoice->setCurrentIndex(3);
+	}
+
 	else if(event->key() == Qt::Key_F7){
 		this->addTargetPopUpSLOT();
 	}
